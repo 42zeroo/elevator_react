@@ -1,10 +1,13 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
+
 import { setElevatorByIndex } from 'redux/features/buildingSlice'
+import useElevatorEventSource from 'hooks/useElevatorEventSource';
+
+import { Container } from './Components'
 import ElevatorStatus from 'components/atoms/ElevatorStatus'
 import ElevatorStatusWrapper from 'components/atoms/ElevatorStatusWrapper'
-import useElevatorEventSource from 'hooks/useElevatorEventSource';
-import styled from 'styled-components';
+
 
 const ElevatorConsole = () => {
     const { data } = useElevatorEventSource()
@@ -27,20 +30,17 @@ const ElevatorConsole = () => {
 
     return (
         <Container>
-            {elevators.map(e => <ElevatorStatusWrapper> {e.name} - <ElevatorStatus key={e.uuid}>
-                0{e.level}
-            </ElevatorStatus> </ElevatorStatusWrapper>)}
+            {elevators.map(e =>
+                <ElevatorStatusWrapper>
+                    {e.name}
+                    <ElevatorStatus key={e.uuid}>
+                        0{e.level}
+                    </ElevatorStatus>
+                </ElevatorStatusWrapper>
+            )}
         </Container>
     )
 }
 
 export default ElevatorConsole
 
-const Container = styled.div`
-    background: #aaaaaa;
-    max-width: 300px;
-    width: 100%;
-    border: 2px solid #000;
-    display: grid;
-    place-items: center;
-`

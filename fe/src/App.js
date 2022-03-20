@@ -1,15 +1,19 @@
-import React from 'react'
-import useBuilding from 'hooks/useBuilding';
+import AppWrapper from 'components/atoms/AppWrapper'
+import ConsoleContainer from 'components/atoms/ConsoleContainer'
 import ElevatorConsole from 'components/molecules/ElevatorConsole'
+import ElevatorButtons from 'components/molecules/ElevatorButtons'
 import Building from 'components/organisms/Building';
 
 const App = () => {
-  useBuilding()
+
   return (
-    <>
+    <AppWrapper>
       <Building />
-      <ElevatorConsole />
-    </>
+      <ConsoleContainer>
+        <ElevatorConsole />
+        <ElevatorButtons />
+      </ConsoleContainer>
+    </AppWrapper>
   )
 }
 
