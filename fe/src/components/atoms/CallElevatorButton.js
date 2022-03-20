@@ -10,6 +10,13 @@ const CallElevatorButton = styled.button`
     padding: 5px;
     border-radius: 5px;
     margin: 0;
+    &:hover{
+        background: #dddddd;
+        cursor: pointer;
+    }
+    &:active{
+        background: #aaaaaa;
+    }
 `
 
 export default CallElevatorButton;
