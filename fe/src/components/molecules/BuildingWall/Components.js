@@ -12,7 +12,8 @@ border: 1px solid #000;`
 export const Elevator = styled.span`
 width: 30px;
 height: 100%;
-background: red;
+background: ${props => props.data_isActive ? "#6666ff" : "#ff0000"};
+
 `
 export const ActiveElevatorsWrapper = styled.div`
 display: flex;

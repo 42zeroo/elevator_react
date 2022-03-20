@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useEffect, useMemo, useCallback } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { useGetBuildingQuery, useGetElevatorsQuery } from 'redux/services/buildingApi'
@@ -15,13 +15,20 @@ const useBuilding = () => {
     const isLoading = buildingQuery.isLoading || elevatorsQuery.isLoading
     const isError = elevatorsQuery.isError || buildingQuery.isError
 
-    useMemo(() => {
-        if (!isLoading && !isError) {
-            const generatedBuildingData = generateData(elevatorsQuery.data, buildingQuery.data.floors)
-            console.log(generatedBuildingData)
-            return dispatch(setBuildingData(generatedBuildingData))
+    const isOk = useMemo(() => !isError && !isLoading, [isError, isLoading])
+
+    const dispatchGeneratedBuildingData = useCallback(() => {
+        if (isOk) {
+            const generatedBuildingData = generateData(elevatorsQuery?.data, buildingQuery?.data?.floors)
+            dispatch(setBuildingData(generatedBuildingData))
         }
-    }, [isLoading, isError, dispatch, buildingQuery, elevatorsQuery])
+    }, [isOk, dispatch, buildingQuery, elevatorsQuery])
+
+    useEffect(() => {
+        if (isOk) {
+            dispatchGeneratedBuildingData()
+        }
+    }, [isOk])
 
     return building
 }

@@ -15,6 +15,7 @@ const BuildingWall = ({ displayElevators, floors, className }) => {
     const [floorsYPosition, setFloorsYPosition] = useState([]);
     const [wallSize, setWallSize] = useState({ width: 0, height: 0 });
     const [isTransition, setIsTransition] = useState(false);
+    const [targetFloors, setTargetFloors] = useState([])
 
     useEffect(() => {
         if (typeof document !== "undefined")
@@ -26,6 +27,9 @@ const BuildingWall = ({ displayElevators, floors, className }) => {
                     width: wallRef?.current?.clientWidth,
                     height: wallRef?.current?.clientHeight,
                 });
+                setTargetFloors(
+                    [...elevators.map(e => e?.targetFloor)]
+                )
                 setTimeout(() => setIsTransition(true), 1000);
             }
     }, [elevators]);
@@ -39,6 +43,7 @@ const BuildingWall = ({ displayElevators, floors, className }) => {
                 >
                     {elevators.map((e) => (
                         <ActiveElevator
+                            key={e.uuid}
                             isTransition={isTransition}
                             data_active_offset_top={floorsYPosition[e.level]}
                         />
@@ -46,10 +51,15 @@ const BuildingWall = ({ displayElevators, floors, className }) => {
                 </ActiveElevatorsWrapper>
             )}
             {floors
-                .map((f) => (
+                .map((f, floorIndex) => (
                     <BuildingFloor key={f.uuid}>
-                        {elevators.map(() =>
-                            displayElevators ? <Elevator /> : <Window />
+                        {elevators.map((e, i) =>
+                            displayElevators ?
+                                <Elevator
+                                    key={i + "-" + e.uuid}
+                                    data_isActive={targetFloors[i] === floorIndex}
+                                />
+                                : <Window key={`${i}-${e.uuid}`} />
                         )}
                     </BuildingFloor>
                 ))

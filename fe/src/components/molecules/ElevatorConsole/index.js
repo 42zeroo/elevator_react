@@ -31,14 +31,15 @@ const ElevatorConsole = () => {
     return (
         <Container>
             {elevators.map(e =>
-                <ElevatorStatusWrapper>
+                <ElevatorStatusWrapper key={e.uuid}>
                     {e.name}
-                    <ElevatorStatus key={e.uuid}>
+                    <ElevatorStatus >
                         0{e.level}
                     </ElevatorStatus>
                 </ElevatorStatusWrapper>
-            )}
-        </Container>
+            )
+            }
+        </Container >
     )
 }
 
