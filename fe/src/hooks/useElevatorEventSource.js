@@ -21,7 +21,7 @@ const useEventSource = (sourceDir = DEFAULT_SOURCE_API) => {
         return () => {
             sse.close();
         };
-    }, [])
+    }, [sourceDir])
 
     return { error: sourceError, data: sourceMessage }
 }
